@@ -4,6 +4,7 @@ import RecordView from "../pages/RecordView";
 // import axios from "axios";
 
 const Hero = () => {
+  const [action, setAction] = useState(0);
   const [submit, setSubmit] = useState(false);
   const handleSubmit = async () => {
     setSubmit(true);

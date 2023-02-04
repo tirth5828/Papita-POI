@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { useReactMediaRecorder } from "react-media-recorder";
 // import { File } from "web3.storage";
-const RecordView = ({ audio, video, screen, submit }) => {
+const RecordView = ({ idd, submit }) => {
   const {
     status,
     startRecording,
@@ -11,7 +11,7 @@ const RecordView = ({ audio, video, screen, submit }) => {
     resumeRecording,
     stopRecording,
     mediaBlobUrl,
-  } = useReactMediaRecorder({ audio: audio, video: video, screen: screen });
+  } = useReactMediaRecorder({ audio: (idd===3), video: (idd===1), screen: (idd===2)});
   const [files, setFiles] = useState([]);
   const [isRecording, setIsRecording] = useState(false);
   const onStop = async () => {
@@ -99,6 +99,16 @@ const RecordView = ({ audio, video, screen, submit }) => {
       >
         Stop
       </button>
+	  <button
+        disabled={!isRecording}
+        className={
+          `p-2 rounded m-4 ` +
+          (!isRecording ? "bg-purple-900" : "bg-purple-500")
+        }
+        onClick={() => onStop()}
+      >
+        Submit
+      </button>
       {/* <button
         // disabled={!isRecording}
         className={
@@ -112,9 +122,9 @@ const RecordView = ({ audio, video, screen, submit }) => {
       {/* {videos.map((url) => {
         return (
           <div> */}
-      <div className="flex flex-wrap gap-4">
+      {/* <div className="flex flex-wrap gap-4">
         {files.map((blobUrl) => {
-          return audio ? (
+          return audio?(
             <audio
               className="max-w-[500px] rounded"
               src={blobUrl}
@@ -132,11 +142,7 @@ const RecordView = ({ audio, video, screen, submit }) => {
             />
           );
         })}
-      </div>
-     
-      {/* </div>
-        );
-      })} */}
+      </div> */}
     </div>
   );
 };

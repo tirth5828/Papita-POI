@@ -16,7 +16,7 @@ const Navbar = () => {
           <a href="/" className="flex items-center">
             <img
               src={she}
-              className="h-6 mr-3 sm:h-9 rounded-full"
+              className="mr-3 h-9 rounded-full"
               alt="herTruth Logo"
             />
             <span className="self-center satisfy text-xl font-semibold whitespace-nowrap dark:text-white">
@@ -26,9 +26,9 @@ const Navbar = () => {
           <div className="flex md:order-2">
             <button
               type="button"
-              className="text-white bg-pink-300 hover:bg-pink-500 focus:ring-2 focus:outline-none focus:ring-pink-300 font-medium rounded-lg p-4 py-1 text-center mr-6 md:mr-1 dark:bg-pink-600 dark:hover:bg-pink-500 dark:focus:ring-pink-500"
+              className="text-white hidden md:flex bg-pink-300 hover:bg-pink-500 focus:ring-2 focus:outline-none focus:ring-pink-300 font-medium rounded-lg p-4 py-1 text-center mr-6 md:mr-1 dark:bg-pink-600 dark:hover:bg-pink-500 dark:focus:ring-pink-500"
             >
-              Report Incident
+              Report
             </button>
             <button
               data-collapse-toggle="navbar-sticky"
