@@ -2,8 +2,10 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { useReactMediaRecorder } from "react-media-recorder";
+import axios from 'axios';
 // import { File } from "web3.storage";
 const RecordView = ({ audio, video, screen, submit }) => {
+  const [send, setSend] = useState(false);
   const {
     status,
     startRecording,
@@ -16,8 +18,27 @@ const RecordView = ({ audio, video, screen, submit }) => {
   const [isRecording, setIsRecording] = useState(false);
   const onStop = async () => {
     stopRecording();
-    setIsRecording(false);
+    setIsRecording(false);    
   };
+  // useEffect(() => {
+  //   async function backend(){
+  //     console.log("URI", mediaBlobUrl);
+  //   const res = await fetch(mediaBlobUrl);
+  //   const blob = await res.blob();
+  //   const data = [];
+  //   const daa = await blobToBase64(blob);
+
+  //   data.push(daa);
+  //   // console.log(data);
+  //   const response = await axios.post("http://localhost:5000/deploy", {
+  //     urls: data
+  //   });
+  //   console.log(response);
+  //   }
+  //   if(send){
+  //   backend();}
+  // }, [mediaBlobUrl])
+
 //   useEffect(() => {
 //     async function setter() {
 //       console.log("URI", mediaBlobUrl);
