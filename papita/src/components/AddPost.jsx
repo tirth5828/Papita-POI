@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 
-const AddPost = ({setAllFiles, allFiles}) => {
+const AddPost = ({ setAllFiles, allFiles }) => {
   const [files, setFiles] = useState([]);
   const handleFile = (e) => {
     console.log("files", files);
@@ -23,10 +23,10 @@ const AddPost = ({setAllFiles, allFiles}) => {
   };
 
   return (
-    <div className="flex flex-col items-center py-10 relative text-white  ">
-      <form className="flex flex-wrap max-w-[600px] gap-8">
-        <div className="w-full">
-          <p>Upload Any Files</p>
+    <div className="flex flex-col items-center justify-center py-4 mx-auto relative text-white  ">
+      <form className="flex flex-wrap max-w-4/5 gap-8">
+        <div className="w-full text-center">
+          <p>Upload Any File</p>
           <div className="flex justify-center w-full items-center px-3">
             <div className="rounded-lg shadow-xl bg-transparent w-full">
               <div className="m-4 w-full">
@@ -58,6 +58,7 @@ const AddPost = ({setAllFiles, allFiles}) => {
                       onChange={handleFile}
                     />
                   </label>
+
                   <div className="flex flex-wrap gap-2 mt-2">
                     {files.map((ele, index) => {
                       return (
@@ -85,6 +86,14 @@ const AddPost = ({setAllFiles, allFiles}) => {
           </div>
         </div>
       </form>
+      <div id="submit" className="flex justify-center p-2 m-4">
+        <button
+          //   onClick={handleSubmit}
+          className=" rounded-lg p-2 bg-green-400 text-white hover:bg-green-500"
+        >
+          Submit All
+        </button>
+      </div>
     </div>
   );
 };
