@@ -69,37 +69,42 @@ const sign_auth_message = async (publicKey, privateKey) => {
 };
 
 app.post("/deploy", async (req, res) => {
-  const arr = req.body.urls;
-  console.log("Here");
-  for (let i = 0; i < arr.length; i++) {
-    const data = arr[i];
-    fs.writeFile(
-      dirPath + "/Output.txt",
-      data + "\n",
-      { flag: "a+" },
-      (err) => {
-        if (err) throw err;
-      }
-    );
-  }
-  const path = "uploads/Output.txt";
-  const apiKey = process.env.API_KEY;
-  const publicKey = "0xd1A27e54b3996DcDbB0A8B7412DE4c0326B6E9EF";
-  const privateKey = process.env.PRIVATE_KEY;
-  const signed_message = await sign_auth_message(publicKey, privateKey);
+  try {
+    const arr = req.body.urls;
+    console.log(typeof arr)
+    console.log("Here");
+    for (let i = 0; i < arr.length; i++) {
+      const data = arr[i];
+      await fs.writeFile(
+        dirPath + "/Output.txt",
+        data + "\n",
+        { flag: "a+" },
+        (err) => {
+          if (err) throw err;
+        }
+      );
+    }
+    const path = "uploads/Output.txt";
+    const apiKey = process.env.API_KEY;
+    const publicKey = "0xd1A27e54b3996DcDbB0A8B7412DE4c0326B6E9EF";
+    const privateKey = process.env.PRIVATE_KEY;
+    const signed_message = await sign_auth_message(publicKey, privateKey);
 
-  const response = await lighthouse.uploadEncrypted(
-    path,
-    apiKey,
-    publicKey,
-    signed_message
-  );
-  // Display response
-  console.log(response);
+    const response = await lighthouse.uploadEncrypted(
+      path,
+      apiKey,
+      publicKey,
+      signed_message
+    );
+    // Display response
+    console.log(response);
+  } catch (e) {
+    console.log(e);
+  }
 });
 app.post("/incident", async (req, res) => {
   // const cid = req.body.cid;
-  const cid = 'QmZRNiX95qtoKxubDpL9twDJTXgVmCSmZzb4qvBtLyysGm';
+  const cid = "QmZRNiX95qtoKxubDpL9twDJTXgVmCSmZzb4qvBtLyysGm";
   const publicKey = "0xd1A27e54b3996DcDbB0A8B7412DE4c0326B6E9EF";
   const privateKey = process.env.PRIVATE_KEY;
 
@@ -125,7 +130,9 @@ app.post("/incident", async (req, res) => {
     console.log("Hello");
     console.log(decrypted);
     // Save File
-    const file = fs.createWriteStream(dirPath2+"/Output.txt").write(Buffer.from(decrypted));
+    const file = fs
+      .createWriteStream(dirPath2 + "/Output.txt")
+      .write(Buffer.from(decrypted));
     var textByLine = [];
     fs.readFile(dirPath + "/Output.txt", (err, inputD) => {
       if (err) throw err;
