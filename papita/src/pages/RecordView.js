@@ -2,8 +2,12 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { useReactMediaRecorder } from "react-media-recorder";
+import axios from "axios";
 // import { File } from "web3.storage";
-const RecordView = ({ idd, submit }) => {
+const RecordView = ({ idd, submit, setSubmit }) => {
+  const [send, setSend] = useState(false);
+  const [files, setFiles] = useState([]);
+  const [isRecording, setIsRecording] = useState(false);
   const {
     status,
     startRecording,
@@ -11,47 +15,48 @@ const RecordView = ({ idd, submit }) => {
     resumeRecording,
     stopRecording,
     mediaBlobUrl,
-  } = useReactMediaRecorder({ audio: (idd===3), video: (idd===1), screen: (idd===2)});
-  const [files, setFiles] = useState([]);
-  const [isRecording, setIsRecording] = useState(false);
+  } = useReactMediaRecorder({
+    audio: idd === 3,
+    video: idd === 1,
+    screen: idd === 2,
+  });
   const onStop = async () => {
     stopRecording();
     setIsRecording(false);
   };
-//   useEffect(() => {
-//     async function setter() {
-//       console.log("URI", mediaBlobUrl);
-//       console.log('here');
-//       setFiles((old) => {
-//         return [...old, mediaBlobUrl];
-//       });
-//     }
-//     if (mediaBlobUrl && files.indexOf(mediaBlobUrl) === -1) {
-//       setter();
-//     }
-//   }, [mediaBlobUrl, files]);
-//   useEffect(() => {
-//     async function setter(){
-//     const response = await fetch(mediaBlobUrl);
-//       const blob = await response.blob();      
-//       const file = new File([blob], Date.now());
-//       const result = await axios.post(
-//         `https://api.web3.storage/upload`,
-//         {
-//           file: file,
-//         },
-//         {
-//           headers: {
-//             "Content-Type": "multipart/form-data",
-//             Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweEU5QTYzMUI0MjMzMDgxNDc3RDhiQTI2OEJDNjEwNWJEOTczOWJlRkMiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NzMwMjkzNDczNzgsIm5hbWUiOiJzdHJBUEkifQ.XSvQF6p4Mib1ntWJxnBaR4Tj7xIpxV2eLfEnG42swu0`,
-//           },
-//         }
-//       );
-//       console.log(result);
-//     }
-//     if(submit === true)
-//       setter();
-//   }, [submit, mediaBlobUrl]);
+  function blobToBase64(blob) {
+    return new Promise((resolve, _) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result);
+      reader.readAsDataURL(blob);
+    });
+  }
+
+  useEffect(() => {
+    async function setter() {
+      console.log("URI", mediaBlobUrl);
+      const res = await fetch(mediaBlobUrl);
+      const blob = await res.blob();
+      const daa = await blobToBase64(blob);
+      setFiles((old) => {
+        return [...old, daa];
+      });
+    }
+    if (mediaBlobUrl && files.indexOf(mediaBlobUrl) === -1) {
+      setter();
+    }
+  }, [mediaBlobUrl]);
+  useEffect(() => {
+    async function setter() {
+      // console.log(data);
+      console.log("uploading to blockchain");
+      const response = await axios.post("http://localhost:5000/deploy", {
+        urls: files,
+      });
+      console.log(response);
+    }
+    if (submit === true) setter();
+  }, [submit]);
   return (
     <div className="bg-black rounded-md bg-opacity-20 w-fit mx-auto p-4 text-white overflow-x-hidden">
       <p className="">
@@ -99,16 +104,23 @@ const RecordView = ({ idd, submit }) => {
       >
         Stop
       </button>
-	  <button
-        disabled={!isRecording}
+      <button
+        disabled={isRecording}
         className={
-          `p-2 rounded m-4 ` +
-          (!isRecording ? "bg-purple-900" : "bg-purple-500")
+          `p-2 rounded m-4 ` + (isRecording ? "bg-purple-900" : "bg-purple-500")
         }
-        onClick={() => onStop()}
+        onClick={() => {
+          onStop();
+          setSubmit(true);
+        }}
       >
         Submit
       </button>
+      {files?.map((ele) => {
+        if (idd === 3) return <audio src={ele} controls></audio>;
+
+        return <video src={ele} controls></video>;
+      })}
       {/* <button
         // disabled={!isRecording}
         className={

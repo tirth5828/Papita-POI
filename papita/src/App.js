@@ -17,9 +17,10 @@ function App() {
         </div>
       </div> */}
       {/* <div className="bg-orange-900 h-96 w-96"></div> */}
-      <div className="mt-52 mx-8">
-        <div className="text-white text-center p-2 uppercase">{action[ind]}</div>
-        {ind === 0?<AddPost />:<RecordView idd={ind} submit={submit} />}
+      <div className="mt-80">
+        <div className="text-white ml-12 uppercase">{action[ind]}</div>
+
+        {ind === 0?<AddPost/>:<RecordView idd={ind} submit={submit} setSubmit = {setSubmit}/>}
       </div>
     </div>
   );
