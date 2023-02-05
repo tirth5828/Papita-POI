@@ -27,3 +27,6 @@ The aim of "Safe Evidence" is to create a secure platform to preserve evidence o
 
 ## Conclusion:
 "Safe Evidence" is a crucial hackathon project aimed at solving a significant issue in the investigation and prosecution of crimes. By providing a secure platform for recording, storing, and classifying evidence, the project addresses the challenges of preserving evidence and protecting privacy. The use of blockchain, encryption, and machine learning enhances the reliability and efficiency of the platform, making it a valuable tool for authorities in the fight against crime.
+
+
+### ML files : https://drive.google.com/drive/folders/1fWZH88hwQiatnIu-g2OFGh7kI1oK_H2g?usp=sharing
